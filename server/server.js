@@ -63,7 +63,7 @@ app.listen(PORT, ()=>{
 
 app.use(
     cors({
-      origin: 'https://oshishya.onrender.com',  //frontend URI
+      origin: 'https://app-oshishya.onrender.com',  //frontend URI
       methods: ["GET", "POST", "PUT", "DELETE"],
       credentials: true,
     })
