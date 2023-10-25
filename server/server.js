@@ -16,7 +16,7 @@ const app = express();
 mongoose.connect(MONGO_URL).then(
     () => console.log('MongoDB connected')
 ).catch(
-    err => console.log(err)
+    err => console.log('MongoDB NOT connected', err)
 )
 app.use(express.json());
 app.use(cookieParser());
