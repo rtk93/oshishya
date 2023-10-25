@@ -11,9 +11,9 @@ const Home = () => {
 
   useEffect(() => {
     const verifyCookie = async () => {
-      if (!cookies.token) {
-        navigate("/login");
-      }
+      // if (!cookies.token) {
+      //   navigate("/login");
+      // }
       const { data } = await axios.post(
         "https://api-oshishya.onrender.com",  //server home url
         {},
@@ -21,16 +21,18 @@ const Home = () => {
       );
       const { status, user } = data;
       setUsername(user);
-      return status
-        ? console.log(`Hello ${user}`)
-        : (removeCookie("token"), navigate("/login"));
+      if(status) {
+         console.log(`Hello ${user}`)
+      } else {
+         navigate("/login");
+      }
     };
     verifyCookie();
   }, [cookies, navigate, removeCookie]);
 
   const Logout = () => {
     removeCookie("token");
-    navigate("/signup");
+    navigate("/login");
   };
 
   return (
