@@ -30,26 +30,26 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(inputValue)
-    // try {
-    //   const { data } = await axios.post(
-    //     "http://localhost:3300/signup",
-    //     {
-    //       ...inputValue,
-    //     },
-    //     { withCredentials: true }
-    //   );
-    //   const { success, message } = data;
-    //   if (success) {
-    //     handleSuccess(message);
-    //     setTimeout(() => {
-    //       navigate("/");
-    //     }, 1000);
-    //   } else {
-    //     handleError(message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const { data } = await axios.post(
+        "https://api-oshishya.onrender.com/signup",
+        {
+          ...inputValue,
+        },
+        { withCredentials: true }
+      );
+      const { success, message } = data;
+      if (success) {
+        handleSuccess(message);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        handleError(message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
     setInputValue({
       ...inputValue,
       username: "",
