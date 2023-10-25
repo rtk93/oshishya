@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose')
 const cors = require("cors")
 const User = require('./Models/UserModel')
-
+const cookieSession = require('cookie-session')
 const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser');
 const mentoringRoutes = require('./Routes/mentoringRoutes');
@@ -68,6 +68,14 @@ app.use(
       credentials: true,
     })
   );
+app.use(
+    cookieSession({
+        secret: 'mySecret',
+        sameSite: 'none',
+        secure: true,
+        httpOnly: true,
+    })
+  )
     
 app.use("/", authRoute);
 app.use('/api', mentoringRoutes);
