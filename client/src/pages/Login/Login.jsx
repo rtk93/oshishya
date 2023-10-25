@@ -46,11 +46,11 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
-    setInputValue({
-      ...inputValue,
-      email: "",
-      password: "",
-    });
+    // setInputValue({
+    //   ...inputValue,
+    //   email: "",
+    //   password: "",
+    // });
   };
 
   return (
