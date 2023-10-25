@@ -15,7 +15,7 @@ const Home = () => {
         navigate("/login");
       }
       const { data } = await axios.post(
-        "https://oshishya-backend.onrender.com",  //server home url
+        "https://api-oshishya.onrender.com",  //server home url
         {},
         { withCredentials: true }
       );
