@@ -17,7 +17,7 @@ const Home = () => {
       setUsername(user);
     };
     verifyUser();
-  }, [cookies, navigate, removeCookie]);
+  }, []);
 
   const Logout = () => {
     navigate("/login");
