@@ -6,32 +6,20 @@ import './Home.css'
 
 const Home = () => {
   const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies([]);
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    const verifyCookie = async () => {
-      // if (!cookies.token) {
-      //   navigate("/login");
-      // }
+    const verifyUser = async () => {
       const { data } = await axios.post(
-        "https://api-oshishya.onrender.com",  //server home url
-        {},
-        { withCredentials: true }
+        "https://api-oshishya.onrender.com"
       );
       const { status, user } = data;
       setUsername(user);
-      if(status) {
-         console.log(`Hello ${user}`)
-      } else {
-         navigate("/login");
-      }
     };
-    verifyCookie();
+    verifyUser();
   }, [cookies, navigate, removeCookie]);
 
   const Logout = () => {
-    removeCookie("token");
     navigate("/login");
   };
 
