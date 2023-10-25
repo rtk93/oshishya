@@ -27,7 +27,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:3300/login",
+        "https://oshishya-backend.onrender.com/login",
         {
           ...inputValue,
         },
