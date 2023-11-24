@@ -2,10 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose')
 const cors = require("cors")
 const User = require('./Models/UserModel')
-const cookieSession = require('cookie-session')
+const BecknResponse = require('./Models/BecknResponseModel')
+
 const cookieParser = require("cookie-parser");
-const bodyParser = require('body-parser');
-const mentoringRoutes = require('./Routes/mentoringRoutes');
 const authRoute = require("./Routes/AuthRoute");
 
 require("dotenv").config()
@@ -16,11 +15,9 @@ const app = express();
 mongoose.connect(MONGO_URL).then(
     () => console.log('MongoDB connected')
 ).catch(
-    err => console.log('MongoDB NOT connected', err)
+    err => console.log(err)
 )
 app.use(express.json());
-app.use(cookieParser());
-app.use(bodyParser.json());
 
 // app.get('/', (req, res) => {
 //     res.send('<h1> Welcome to OVaidya </h1>')
@@ -32,6 +29,17 @@ app.post('/addUser', async (req, res)=>{
         const newUser = new User({ username, fullname, email, mobile, role, password, createdAt })
         await newUser.save()
         return res.json(await User.find())
+    } catch(err){
+        console.log(err.message)
+    }
+})
+
+app.post('/on_search', async (req, res)=>{
+    const { context, error } = req.body;
+    try {
+        const newResponse = new BecknResponse({ context, error })
+        await newResponse.save()
+        return res.json(await BecknResponse.find())
     } catch(err){
         console.log(err.message)
     }
@@ -63,19 +71,11 @@ app.listen(PORT, ()=>{
 
 app.use(
     cors({
-      origin: ['https://app-oshishya.onrender.com','http://localhost:3000' ],  //frontend URI
+      origin: ["http://localhost:3000"],
       methods: ["GET", "POST", "PUT", "DELETE"],
       credentials: true,
     })
   );
-app.use(
-    cookieSession({
-        secret: 'mySecret',
-        sameSite: 'none',
-        secure: true,
-        httpOnly: true,
-    })
-  )
+app.use(cookieParser());
     
 app.use("/", authRoute);
-app.use('/api', mentoringRoutes);
