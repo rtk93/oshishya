@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose')
 const cors = require("cors")
 const User = require('./Models/UserModel')
+const BecknRequest = require('./Models/BecknRequestModel')
 const BecknResponse = require('./Models/BecknResponseModel')
 
 const cookieParser = require("cookie-parser");
@@ -40,6 +41,17 @@ app.post('/on_search', async (req, res)=>{
         const newResponse = new BecknResponse({ context, error })
         await newResponse.save()
         return res.json(await BecknResponse.find())
+    } catch(err){
+        console.log(err.message)
+    }
+})
+
+app.post('/search', async (req, res)=>{
+    const { context, message } = req.body;
+    try {
+        const newRequest = new BecknRequest({ context, message })
+        await newRequest.save()
+        return res.json(await BecknRequest.find())
     } catch(err){
         console.log(err.message)
     }
