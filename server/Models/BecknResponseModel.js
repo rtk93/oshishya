@@ -7,9 +7,9 @@ const BecknResponseSchema = new mongoose.Schema({
         type: Object,
         required: true,
     },
-    error : {
+    message : {
         type: Object,
-        required: false,
+        required: true,
     }
 })
 

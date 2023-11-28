@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose')
+const axios = require('axios');
 const cors = require("cors")
 const User = require('./Models/UserModel')
 const BecknRequest = require('./Models/BecknRequestModel')
@@ -36,9 +37,9 @@ app.post('/addUser', async (req, res)=>{
 })
 
 app.post('/on_search', async (req, res)=>{
-    const { context, error } = req.body;
+    const { context, message } = req.body;
     try {
-        const newResponse = new BecknResponse({ context, error })
+        const newResponse = new BecknResponse({ context, message })
         await newResponse.save()
         return res.json(await BecknResponse.find())
     } catch(err){
@@ -48,13 +49,20 @@ app.post('/on_search', async (req, res)=>{
 
 app.post('/search', async (req, res)=>{
     const { context, message } = req.body;
-    try {
-        const newRequest = new BecknRequest({ context, message })
-        await newRequest.save()
-        return res.json(await BecknRequest.find())
-    } catch(err){
-        console.log(err.message)
-    }
+    const { domain, bap_uri } = context
+    // const newRequest = new BecknRequest({ context, message })
+    // await newRequest.save()
+    axios.post(bap_uri + '/on_search', {
+            "context": context, 
+            "message" : {"response":"This is call back on BAP from BPP"}
+        })
+        .then(function(response){
+            console.log('on_search successful')
+        })
+        .catch(function(error){
+            console.log('on_search failed')
+        })
+    return res.json({"onSearchURL": bap_uri})
 })
 
 app.get('/getUsers', async (req,res)=>{
