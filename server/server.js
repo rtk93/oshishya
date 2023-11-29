@@ -50,8 +50,8 @@ app.post('/on_search', async (req, res)=>{
 app.post('/search', async (req, res)=>{
     const { context, message } = req.body;
     const { domain, bap_uri } = context
-    // const newRequest = new BecknRequest({ context, message })
-    // await newRequest.save()
+    const newRequest = new BecknRequest({ context, message })
+    await newRequest.save()
     axios.post(bap_uri + '/on_search', {
             "context": context, 
             "message" : {"response":"This is call back on BAP from BPP"}
